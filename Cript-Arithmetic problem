@@ -1,0 +1,20 @@
+from itertools import permutations
+def solve_cryptarithmetic():
+    letters = 'SENDMORY'
+    for perm in permutations('0123456789', len(letters)):
+        s, e, n, d, m, o, r, y = perm
+        send = int(s + e + n + d)
+        more = int(m + o + r + e)
+        money = int(m + o + n + e + y)
+        if send + more == money and s != '0' and m != '0':
+            return send, more, money
+
+    return None
+solution = solve_cryptarithmetic()
+if solution:
+    send, more, money = solution
+    print(f"SEND: {send}")
+    print(f"MORE: {more}")
+    print(f"MONEY: {money}")
+else:
+    print("No solution found.")
