@@ -1,0 +1,60 @@
+from collections import deque
+
+def is_valid(state):
+    M_left, C_left, boat, M_right, C_right = state
+    if M_left < 0 or C_left < 0 or M_right < 0 or C_right < 0:
+        return False
+    if M_left > 0 and M_left < C_left:
+        return False
+    if M_right > 0 and M_right < C_right:
+        return False
+    return True
+
+def is_goal(state):
+    _, _, _, M_right, C_right = state
+    return M_right == 3 and C_right == 3
+
+def get_successors(state):
+    M_left, C_left, boat, M_right, C_right = state
+    successors = []
+    if boat == 'left':
+        new_boat = 'right'
+        moves = [(1, 0), (2, 0), (0, 1), (0, 2), (1, 1)]
+        for M_move, C_move in moves:
+            new_state = (M_left - M_move, C_left - C_move, new_boat, M_right + M_move, C_right + C_move)
+            if is_valid(new_state):
+                successors.append(new_state)
+    else:
+        new_boat = 'left'
+        moves = [(1, 0), (2, 0), (0, 1), (0, 2), (1, 1)]
+        for M_move, C_move in moves:
+            new_state = (M_left + M_move, C_left + C_move, new_boat, M_right - M_move, C_right - C_move)
+            if is_valid(new_state):
+                successors.append(new_state)
+    return successors
+
+def bfs(initial_state):
+    queue = deque([(initial_state, [])])
+    visited = set()
+    while queue:
+        current_state, path = queue.popleft()
+        if current_state in visited:
+            continue
+        visited.add(current_state)
+        if is_goal(current_state):
+            return path + [current_state]
+        for successor in get_successors(current_state):
+            queue.append((successor, path + [current_state]))
+    return None
+
+def main():
+    initial_state = (3, 3, 'left', 0, 0)
+    solution = bfs(initial_state)
+    if solution:
+        for step in solution:
+            print(step)
+    else:
+        print("No solution found.")
+
+if __name__ == "__main__":
+    main()
