@@ -1,0 +1,26 @@
+def decide_to_buy_computer():
+    print("Enter the attributes to decide whether to buy a computer or not:")
+    budget = input("Enter your budget (high/low): ").lower()
+    credit = input("Enter your credit status (good/bad): ").lower()
+    age = input("Enter your age (young/middle-aged/senior): ").lower()
+    student = input("Are you a student? (yes/no): ").lower()
+    if budget == 'high':
+        if credit == 'good':
+            decision = "Buy"
+        else:
+            if student == 'yes':
+                decision = "Buy"
+            else:
+                decision = "Don't buy"
+    else:
+        if age == 'young':
+            if credit == 'good':
+                decision = "Buy"
+            else:
+                decision = "Don't buy"
+        else:
+            decision = "Don't buy"
+    print(f"Decision: {decision}")
+
+if _name_ == "_main_":
+    decide_to_buy_computer()
