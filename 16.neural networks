@@ -1,0 +1,81 @@
+
+import numpy as np
+
+# Activation function: Sigmoid
+def sigmoid(x):
+    return 1 / (1 + np.exp(-x))
+
+# Derivative of the sigmoid function
+def sigmoid_derivative(x):
+    return x * (1 - x)
+
+# Feedforward Neural Network class
+class NeuralNetwork:
+    def __init__(self, input_size, hidden_size, output_size):
+        # Initialize weights and biases
+        self.input_size = input_size
+        self.hidden_size = hidden_size
+        self.output_size = output_size
+        
+        self.weights_input_hidden = np.random.rand(self.input_size, self.hidden_size)
+        self.weights_hidden_output = np.random.rand(self.hidden_size, self.output_size)
+        
+        self.bias_hidden = np.random.rand(self.hidden_size)
+        self.bias_output = np.random.rand(self.output_size)
+
+    def feedforward(self, inputs):
+        # Calculate hidden layer activation
+        self.hidden_layer_input = np.dot(inputs, self.weights_input_hidden) + self.bias_hidden
+        self.hidden_layer_output = sigmoid(self.hidden_layer_input)
+        
+        # Calculate output layer activation
+        self.output_layer_input = np.dot(self.hidden_layer_output, self.weights_hidden_output) + self.bias_output
+        self.output_layer_output = sigmoid(self.output_layer_input)
+        
+        return self.output_layer_output
+
+    def backpropagation(self, inputs, expected_output, learning_rate):
+        # Feedforward
+        output = self.feedforward(inputs)
+        
+        # Calculate the error
+        output_error = expected_output - output
+        output_delta = output_error * sigmoid_derivative(output)
+        
+        hidden_error = output_delta.dot(self.weights_hidden_output.T)
+        hidden_delta = hidden_error * sigmoid_derivative(self.hidden_layer_output)
+        
+        # Update weights and biases
+        self.weights_hidden_output += self.hidden_layer_output.T.dot(output_delta) * learning_rate
+        self.weights_input_hidden += inputs.T.dot(hidden_delta) * learning_rate
+        self.bias_output += np.sum(output_delta, axis=0) * learning_rate
+        self.bias_hidden += np.sum(hidden_delta, axis=0) * learning_rate
+
+    def train(self, inputs, expected_output, learning_rate, epochs):
+        for epoch in range(epochs):
+            self.backpropagation(inputs, expected_output, learning_rate)
+
+# Example usage:
+if __name__ == "__main__":
+    # Input data (4 samples, 2 features each)
+    inputs = np.array([[0, 0],
+                       [0, 1],
+                       [1, 0],
+                       [1, 1]])
+
+    # Expected output (4 samples, 1 output each)
+    expected_output = np.array([[0],
+                                [1],
+                                [1],
+                                [0]])
+
+    # Create neural network
+    nn = NeuralNetwork(input_size=2, hidden_size=2, output_size=1)
+
+    # Train the neural network
+    nn.train(inputs, expected_output, learning_rate=0.1, epochs=10000)
+
+    # Test the neural network
+    for input_sample in inputs:
+        print(f"Input: {input_sample} Output: {nn.feedforward(input_sample)}")
+CSA1732-AI/EXP-16.py at ma
