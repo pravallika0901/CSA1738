@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Blog Post</title>
+</head>
+<body>
+    <h1>Welcome to My Blog</h1>
+    <p>This is an example of a blog post demonstrating various HTML elements.</p>
+
+    <h2>Using Anchor Tags</h2>
+    <p><a href="https://example.com">Click here to visit Example</a></p>
+
+    <h2>Using Bold and Italics</h2>
+    <p>This is <b>bold text</b> and this is <i>italic text</i>.</p>
+
+    <h2>Using Lists</h2>
+    <ul>
+        <li>First item in unordered list</li>
+        <li>Second item in unordered list</li>
+    </ul>
+    <ol>
+        <li>First item in ordered list</li>
+        <li>Second item in ordered list</li>
+    </ol>
+
+    <h2>Using Images</h2>
+    <p><img src="https://example.com/image.jpg" alt="Example Image"></p>
+
+    <p>Thank you for reading!</p>
+</body>
+</html>
